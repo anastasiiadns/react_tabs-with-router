@@ -1,7 +1,7 @@
 import React from 'react';
 import { Tabs, TabList, Tab, TabPanel } from 'react-tabs';
-import classNames from 'classnames';
 import { Link, useParams } from 'react-router-dom';
+import classNames from 'classnames';
 
 const tabs = [
   { id: 'tab-1', title: 'Tab 1', content: 'Some text 1' },
@@ -11,29 +11,42 @@ const tabs = [
 
 export const TabsPage: React.FC = () => {
   const { tabId } = useParams();
-  const selectedTab = tabs.find(tab => tab.id === tabId);
+
+  const tabIndex = tabs.findIndex(tab => tab.id === tabId);
+  const isValidTab = tabIndex !== -1;
 
   return (
     <div className="container">
       <h1 className="title">Tabs page</h1>
 
-      <Tabs className="tabs is-boxed">
+      <Tabs selectedIndex={isValidTab ? tabIndex : 0} className="tabs is-boxed">
         <TabList>
-          {tabs.map(tab => (
+          {tabs.map((tab, index) => (
             <Tab
               key={tab.id}
               data-cy="Tab"
-              className={classNames({ 'is-active': tab.id === tabId })}
+              className={classNames({
+                'is-active': index === tabIndex && isValidTab,
+              })}
             >
               <Link to={`/tabs/${tab.id}`}>{tab.title}</Link>
             </Tab>
           ))}
         </TabList>
+
+        {isValidTab &&
+          tabs.map(tab => (
+            <TabPanel key={tab.id}>
+              <div data-cy="TabContent">{tab.content}</div>
+            </TabPanel>
+          ))}
       </Tabs>
 
-      <TabPanel className="block" data-cy="TabContent">
-        {selectedTab ? selectedTab.content : 'Please select a tab'}
-      </TabPanel>
+      {!isValidTab && (
+        <div className="block" data-cy="TabContent">
+          Please select a tab
+        </div>
+      )}
     </div>
   );
 };
