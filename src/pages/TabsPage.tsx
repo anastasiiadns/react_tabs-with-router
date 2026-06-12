@@ -19,20 +19,22 @@ export const TabsPage: React.FC = () => {
     <div className="container">
       <h1 className="title">Tabs page</h1>
 
-      <Tabs selectedIndex={isValidTab ? tabIndex : 0} className="tabs is-boxed">
-        <TabList>
-          {tabs.map((tab, index) => (
-            <Tab
-              key={tab.id}
-              data-cy="Tab"
-              className={classNames({
-                'is-active': index === tabIndex && isValidTab,
-              })}
-            >
-              <Link to={`/tabs/${tab.id}`}>{tab.title}</Link>
-            </Tab>
-          ))}
-        </TabList>
+      <Tabs selectedIndex={isValidTab ? tabIndex : 0}>
+        <div className="tabs is-boxed">
+          <TabList>
+            {tabs.map((tab, index) => (
+              <Tab
+                key={tab.id}
+                data-cy="Tab"
+                className={classNames({
+                  'is-active': index === tabIndex && isValidTab,
+                })}
+              >
+                <Link to={`/tabs/${tab.id}`}>{tab.title}</Link>
+              </Tab>
+            ))}
+          </TabList>
+        </div>
 
         {isValidTab &&
           tabs.map(tab => (
