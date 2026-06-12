@@ -36,6 +36,12 @@ export const TabsPage: React.FC = () => {
           </TabList>
         </div>
 
+        {!isValidTab && (
+          <div className="block" data-cy="TabContent">
+            Please select a tab
+          </div>
+        )}
+
         {isValidTab &&
           tabs.map(tab => (
             <TabPanel key={tab.id}>
@@ -43,12 +49,6 @@ export const TabsPage: React.FC = () => {
             </TabPanel>
           ))}
       </Tabs>
-
-      {!isValidTab && (
-        <div className="block" data-cy="TabContent">
-          Please select a tab
-        </div>
-      )}
     </div>
   );
 };
